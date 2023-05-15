@@ -6,10 +6,18 @@ branding:
   color: 'purple'
 author: 'Skywarth'
 inputs:
-  build_path:
-    description: "Build path string for vite/vue, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain."
+  public_base_path:
+    description: "Public base path string for vite/vue, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain."
     required: false
     default: ${{ github.event.repository.name }}
+  build_path:
+    description: "Which folder do you want your Github Page to use as root directory. Usually it is your build output directory such as ./dist "
+    required: false
+    default: ./dist
+  deploy_environment_name:
+    description: "Desired name for the Deployment environment. "
+    required: false
+    default: github-pages
 runs:
   using: "composite"
   steps:
@@ -24,17 +32,17 @@ runs:
         run: npm ci
         shell: bash
       - name: Build
-        run: npm run build
+        run: vite build --base=${{ inputs.public_base_path }}
         shell: bash
         env:
           NODE_ENV: production
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./dist
+          path: ${{ inputs.build_path }}
       - name: Deploy
         env:
-          name: github-pages
+          name: ${{ inputs.deploy_environment_name }}
           url: ${{ steps.deployment.outputs.page_url }}
         uses: actions/deploy-pages@v2
         id: deployment

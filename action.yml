@@ -5,9 +5,19 @@ branding:
   icon: 'zap'  
   color: 'purple'
 author: 'Skywarth'
+inputs:
+  build_path:
+    description: "Build path string for vite/vue, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain."
+    required: false
+    default: ${{ github.event.repository.name }}
 runs:
   using: "composite"
   steps:
+      - name: Dump context
+        uses: crazy-max/ghaction-dump-context@v2
+      - name: Dump build_path
+        run: echo "build_path is: ${{ inputs.build_path }}"
+        shell: bash
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Install

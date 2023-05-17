@@ -21,7 +21,8 @@ inputs:
   debug_mode:
     description: "Controls the debug mode, boolean, true is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables."
     required: false
-    default: false
+    default: false #github yml you suck for not supporting bool
+    type: boolean
 runs:
   using: "composite"
   steps:

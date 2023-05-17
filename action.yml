@@ -32,7 +32,7 @@ runs:
         run: npm ci
         shell: bash
       - name: Build
-        run: vite build --base=${{ inputs.public_base_path }}
+        run: npm run build -- --base=${{ inputs.public_base_path }}
         shell: bash
         env:
           NODE_ENV: production

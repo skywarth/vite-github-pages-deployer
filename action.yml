@@ -20,17 +20,17 @@ inputs:
     default: github-pages
   debug_mode:
     description: "Controls the debug mode, boolean, true is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables."
-    required: false
-    default: false #github yml you suck for not supporting bool
     type: boolean
+    required: false
+    default: false
 runs:
   using: "composite"
   steps:
       - name: Dump context
-        if: ${{ inputs.debug_mode==true }}
+        if: ${{ inputs.debug_mode}}
         uses: crazy-max/ghaction-dump-context@v2
       - name: Dump build_path
-        if: ${{ inputs.debug_mode==true }}
+        if: ${{ inputs.debug_mode}}
         run: echo "build_path is ${{ inputs.build_path }}"
         shell: bash
       - name: Setup Pages

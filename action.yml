@@ -19,7 +19,7 @@ inputs:
     required: false
     default: github-pages
   debug_mode:
-    description: 'Controls the debug mode, boolean, true is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables.'
+    description: "Controls the debug mode, boolean, true is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables."
     type: boolean
     required: false
     default: false

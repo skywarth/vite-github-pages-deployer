@@ -27,10 +27,10 @@ runs:
   using: "composite"
   steps:
       - name: Dump context
-        if: ${{ inputs.debug_mode }}
+        if: ${{ inputs.debug_mode==true }}
         uses: crazy-max/ghaction-dump-context@v2
       - name: Dump build_path
-        if: ${{ inputs.debug_mode }}
+        if: ${{ inputs.debug_mode==true }}
         run: echo "build_path is ${{ inputs.build_path }}"
         shell: bash
       - name: Setup Pages

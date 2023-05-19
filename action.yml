@@ -15,7 +15,7 @@ inputs:
     required: false
     default: ./dist
   deploy_environment_name:
-    description: "Desired name for the Deployment environment. "
+    description: "Desired name for the Deployment environment. It is also the exposed artifact name which contains the build output (dist)."
     required: false
     default: github-pages
   debug_mode:
@@ -51,11 +51,14 @@ runs:
         with:
           path: ${{ inputs.build_path }}
       - name: Deploy
+        uses: actions/deploy-pages@v2
+        with:
+          artifact_name: ${{inputs.deploy_environment_name}}
         env:
           name: ${{ inputs.deploy_environment_name }}
           url: ${{ steps.deployment.outputs.page_url }}
-        uses: actions/deploy-pages@v2
         id: deployment
+        
         
 
 

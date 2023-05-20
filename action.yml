@@ -27,9 +27,6 @@ runs:
   using: "composite"
   
   steps:
-      - name: Dump debug_mode
-        run: echo "debug_mode is ${{ inputs.debug_mode }}"
-        shell: bash
       - name: Dump context
         if: ${{ inputs.debug_mode=='true'}}
         uses: crazy-max/ghaction-dump-context@v2

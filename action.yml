@@ -20,20 +20,24 @@ inputs:
     default: github-pages
   debug_mode:
     description: "Controls the debug mode, boolean, true is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables."
-    type: boolean
     required: false
-    default: false
+    default: 'false'
 runs:
   using: "composite"
+  env:
+    GLOBAL_ACTION_DEBUG_MODE:${{inputs.debug_mode==='true'}}
   steps:
       - name: Dump debug_mode
         run: echo "debug_mode is ${{ inputs.debug_mode }}"
         shell: bash
+      - name: Dump GLOBAL_ACTION_DEBUG_MODE
+        run: echo "GLOBAL_ACTION_DEBUG_MODE is ${{ GLOBAL_ACTION_DEBUG_MODE }}"
+        shell: bash
       - name: Dump context
-        if: ${{ inputs.debug_mode}}
+        if: ${{ GLOBAL_ACTION_DEBUG_MODE}}
         uses: crazy-max/ghaction-dump-context@v2
       - name: Dump build_path
-        if: ${{ inputs.debug_mode}}
+        if: ${{ GLOBAL_ACTION_DEBUG_MODE}}
         run: echo "build_path is ${{ inputs.build_path }}"
         shell: bash
       - name: Setup Pages

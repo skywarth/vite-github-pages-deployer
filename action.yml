@@ -22,10 +22,11 @@ inputs:
     description: "Controls the debug mode, boolean, true is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables."
     required: false
     default: 'false'
+env:
+  GLOBAL_ACTION_DEBUG_MODE: inputs.debug_mode=='true'
 runs:
   using: "composite"
-  env:
-    GLOBAL_ACTION_DEBUG_MODE: inputs.debug_mode=='true'
+
   steps:
       - name: Dump debug_mode
         run: echo "debug_mode is ${{ inputs.debug_mode }}"

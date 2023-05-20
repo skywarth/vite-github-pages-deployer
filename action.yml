@@ -5,6 +5,8 @@ branding:
   icon: 'zap'  
   color: 'purple'
 author: 'Skywarth'
+env:
+  GLOBAL_ACTION_DEBUG_MODE: false
 inputs:
   public_base_path:
     description: "Public base path string for vite/vue, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain."
@@ -25,8 +27,7 @@ inputs:
 
 runs:
   using: "composite"
-  env:
-    GLOBAL_ACTION_DEBUG_MODE: inputs.debug_mode=='true'
+  
   steps:
       - name: Dump debug_mode
         run: echo "debug_mode is ${{ inputs.debug_mode }}"

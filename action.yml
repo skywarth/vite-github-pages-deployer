@@ -33,13 +33,13 @@ runs:
         run: echo "debug_mode is ${{ inputs.debug_mode }}"
         shell: bash
       - name: Dump GLOBAL_ACTION_DEBUG_MODE
-        run: echo "GLOBAL_ACTION_DEBUG_MODE is ${{ GLOBAL_ACTION_DEBUG_MODE }}"
+        run: echo "GLOBAL_ACTION_DEBUG_MODE is ${{ env.GLOBAL_ACTION_DEBUG_MODE }}"
         shell: bash
       - name: Dump context
-        if: ${{ GLOBAL_ACTION_DEBUG_MODE}}
+        if: ${{ env.GLOBAL_ACTION_DEBUG_MODE}}
         uses: crazy-max/ghaction-dump-context@v2
       - name: Dump build_path
-        if: ${{ GLOBAL_ACTION_DEBUG_MODE}}
+        if: ${{ env.GLOBAL_ACTION_DEBUG_MODE}}
         run: echo "build_path is ${{ inputs.build_path }}"
         shell: bash
       - name: Setup Pages

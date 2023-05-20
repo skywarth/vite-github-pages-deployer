@@ -51,6 +51,7 @@ runs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: ${{ inputs.build_path }}
+          name: ${{inputs.deploy_environment_name}}
       - name: Deploy
         uses: actions/deploy-pages@v2
         with:

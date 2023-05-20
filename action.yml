@@ -5,9 +5,6 @@ branding:
   icon: 'zap'  
   color: 'purple'
 author: 'Skywarth'
-env:
-  GLOBAL_ACTION_DEBUG_MODE: inputs.debug_mode=='true'
-  SOME_VAR: whaddup
 inputs:
   public_base_path:
     description: "Public base path string for vite/vue, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain."
@@ -30,20 +27,14 @@ runs:
   using: "composite"
   
   steps:
-      - name: Dump SOME_VAR
-        run: echo "SOME_VAR is ${{ env.SOME_VAR }}"
-        shell: bash
       - name: Dump debug_mode
         run: echo "debug_mode is ${{ inputs.debug_mode }}"
         shell: bash
-      - name: Dump GLOBAL_ACTION_DEBUG_MODE
-        run: echo "GLOBAL_ACTION_DEBUG_MODE is ${{ env.GLOBAL_ACTION_DEBUG_MODE }}"
-        shell: bash
       - name: Dump context
-        if: ${{ env.GLOBAL_ACTION_DEBUG_MODE}}
+        if: ${{ inputs.debug_mode=='true'}}
         uses: crazy-max/ghaction-dump-context@v2
       - name: Dump build_path
-        if: ${{ env.GLOBAL_ACTION_DEBUG_MODE}}
+        if: ${{ inputs.debug_mode=='true'}}
         run: echo "build_path is ${{ inputs.build_path }}"
         shell: bash
       - name: Setup Pages

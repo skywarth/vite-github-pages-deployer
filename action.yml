@@ -53,7 +53,7 @@ runs:
           path: ${{ inputs.build_path }}
           name: ${{inputs.deploy_environment_name}}
       - name: Deploy
-        environment:
+        env:
           name: ${{ inputs.deploy_environment_name }}
           url: ${{ steps.deployment.outputs.page_url }}
         uses: actions/deploy-pages@v2

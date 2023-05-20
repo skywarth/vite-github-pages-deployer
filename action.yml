@@ -25,7 +25,7 @@ inputs:
 runs:
   using: "composite"
   env:
-    GLOBAL_ACTION_DEBUG_MODE:${{inputs.debug_mode=='true'}}
+    GLOBAL_ACTION_DEBUG_MODE: inputs.debug_mode=='true'
   steps:
       - name: Dump debug_mode
         run: echo "debug_mode is ${{ inputs.debug_mode }}"

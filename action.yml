@@ -14,7 +14,7 @@ inputs:
     description: "Which folder do you want your Github Page to use as root directory. Usually it is your build output directory such as ./dist "
     required: false
     default: ./dist
-  deploy_environment_name:
+  artifact_name:
     description: "Desired name for the Deployment environment. It is also the exposed artifact name which contains the build output (dist)."
     required: false
     default: github-pages
@@ -51,14 +51,11 @@ runs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: ${{ inputs.build_path }}
-          name: ${{inputs.deploy_environment_name}}
+          name: ${{inputs.artifact_name}}
       - name: Deploy
-        env:
-          name: ${{ inputs.deploy_environment_name }}
-          url: ${{ steps.deployment.outputs.page_url }}
         uses: actions/deploy-pages@v2
         with:
-          artifact_name: ${{inputs.deploy_environment_name}}
+          artifact_name: ${{inputs.artifact_name}}
         id: deployment
         
         

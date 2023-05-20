@@ -53,12 +53,12 @@ runs:
           path: ${{ inputs.build_path }}
           name: ${{inputs.deploy_environment_name}}
       - name: Deploy
+        environment:
+          name: ${{ inputs.deploy_environment_name }}
+          url: ${{ steps.deployment.outputs.page_url }}
         uses: actions/deploy-pages@v2
         with:
           artifact_name: ${{inputs.deploy_environment_name}}
-        env:
-          name: ${{ inputs.deploy_environment_name }}
-          url: ${{ steps.deployment.outputs.page_url }}
         id: deployment
         
         

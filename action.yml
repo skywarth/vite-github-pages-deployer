@@ -1,13 +1,13 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Vue Github Pages Deployer Using Vite
-description: Deploy your Vue app to github pages using vite
+name: Vite Github Pages Deployer
+description: "Deploy your Vite app to github pages using actions. Doesn't require commits and pushes, clean deployment using only artifacts."
 branding:
   icon: 'zap'  
   color: 'purple'
 author: 'Skywarth'
 inputs:
   public_base_path:
-    description: "Public base path string for vite/vue, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain."
+    description: "Public base path string for vite, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain."
     required: false
     default: ${{ github.event.repository.name }}
   build_path:

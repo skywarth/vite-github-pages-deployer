@@ -1,6 +1,8 @@
 # Vite Github Pages Deploy
 
-Deploy your Vue application to Github Pages via Vite, in a glance.
+Deploy your Vue application to Github Pages via Vite, in a glance. 
+- No shenanigans such as committing the dist folder and pushing to a branch. 
+- Clean deploy to Github Pages by utilizing actions.
 
 ```
 - name: Vue Github Pages Deployer Using Vite

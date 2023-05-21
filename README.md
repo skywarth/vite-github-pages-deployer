@@ -1,12 +1,13 @@
 # Vite Github Pages Deploy
 
-Deploy your Vue application to Github Pages via Vite, in a glance. 
+Deploy your [Vite](https://vitejs.dev/guide/) application to Github Pages, at a glance. 
 - No shenanigans such as committing the dist folder and pushing to a branch. 
-- Clean deploy to Github Pages by utilizing actions.
+- Clean deploy to Github Pages by utilizing actions and artifacts.
+- Customizable with optional build path
 
 ```
-- name: Vue Github Pages Deployer Using Vite
-  uses: skywarth/vite-vue-github-pages-deploy@v1.0.0
+- name: Vite Github Pages Deployer
+  uses: skywarth/vite-github-pages-deployer@v1.0.1
 ```
 
 Don't forget to release environment regarding the deploy:
@@ -27,7 +28,7 @@ Wanna see it in action? Sure thing, head on to this vue project to see it live: 
 ### `public_base_path` (optional)
 `Type: string`
 
-Public base path string for vite/vue, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain. If you plan on deploying to alternative platform such as Vercel, you should simply provide `/`. 
+[Public base path](https://vitejs.dev/guide/build.html#public-base-path) string for Vite, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain. If you plan on deploying to alternative platform such as Vercel, you should simply provide `/`. 
 
 Under normal circumstances, you don't need to provide/override this parameter, action will set it to your repo name appropriately.
 
@@ -81,8 +82,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Vue Github Pages Deployer Using Vite
-        uses: skywarth/vite-vue-github-pages-deploy@master
+      - name: Vite Github Pages Deployer
+        uses: skywarth/vite-github-pages-deployer@master
 
 ```
 

@@ -23,12 +23,10 @@ inputs:
     required: false
     default: 'false'
   package_manager:
-    description: "Your preference of package manager: npm or yarn."
+    description: "Your preference of package manager: 'npm' and 'yarn' are possible values."
     required: true
 
 runs:
-  env:
-    test_workflow_variable:'whaddup'
   using: "composite"
   steps:
       - name: Dump context
@@ -41,10 +39,22 @@ runs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Install
-        run: npm ci
+        run: |
+              if [ "${{ inputs.package_manager }}"=="yarn" ]
+              then 
+                yarn install --immutable --immutable-cache --check-cache;
+              else 
+                npm ci; 
+              fi
         shell: bash
       - name: Build
-        run: npm run build -- --base=${{ inputs.public_base_path }}
+        run: |
+              if [ "${{ inputs.package_manager }}"=="yarn" ]
+              then 
+                yarn build -- --base=${{ inputs.public_base_path }}
+              else 
+                npm run build -- --base=${{ inputs.public_base_path }}
+              fi
         shell: bash
         env:
           NODE_ENV: production

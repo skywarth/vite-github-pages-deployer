@@ -9,7 +9,7 @@ inputs:
   public_base_path:
     description: "Public base path string for vite, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain."
     required: false
-    default: ${{ github.event.repository.name }}
+    default: "/${{ github.event.repository.name }}"
   build_path:
     description: "Which folder do you want your Github Page to use as root directory. Usually it is your build output directory such as ./dist "
     required: false

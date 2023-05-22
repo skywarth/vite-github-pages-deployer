@@ -24,7 +24,8 @@ inputs:
     default: 'false'
   package_manager:
     description: "Your preference of package manager: 'npm' and 'yarn' are possible values."
-    required: true
+    required: false
+    default: 'npm'
 
 runs:
   using: "composite"
@@ -40,7 +41,7 @@ runs:
         uses: actions/configure-pages@v3
       - name: Install
         run: |
-              if [ "${{ inputs.package_manager }}"=="yarn" ]
+              if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 
                 yarn install --immutable --immutable-cache --check-cache;
               else 
@@ -49,7 +50,7 @@ runs:
         shell: bash
       - name: Build
         run: |
-              if [ "${{ inputs.package_manager }}"=="yarn" ]
+              if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 
                 yarn build -- --base=${{ inputs.public_base_path }}
               else 

@@ -87,3 +87,11 @@ jobs:
 
 ```
 
+## TODOs
+
+- [ ] Move bash scripts to a separate file for each section: build.sh, install.sh etc...
+  - [ ] Would it be possible to import it like a class ? Research
+  - [ ] Passing some parameters to it perhaps
+- [ ] Output the deploy url for environment, see issue #2
+
+

@@ -43,10 +43,10 @@ runs:
         run: |
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 
-                if [[ "${{ inputs.debug_mode }}" == "true" ]]; echo "Installing via yarn"; fi;
+                if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Installing via yarn"; fi;
                 yarn install --immutable --immutable-cache --check-cache;
               else
-                if [[ "${{ inputs.debug_mode }}" == "true" ]]; echo "Installing via npm"; fi;
+                if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Installing via npm"; fi;
                 npm ci; 
               fi
         shell: bash
@@ -54,10 +54,10 @@ runs:
         run: |
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 
-                if [[ "${{ inputs.debug_mode }}" == "true" ]]; echo "Building via yarn"; fi;
+                if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Building via yarn"; fi;
                 yarn build -- --base=${{ inputs.public_base_path }}
               else 
-                if [[ "${{ inputs.debug_mode }}" == "true" ]]; echo "Building via npm"; fi;
+                if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Building via npm"; fi;
                 npm run build -- --base=${{ inputs.public_base_path }}
               fi
         shell: bash

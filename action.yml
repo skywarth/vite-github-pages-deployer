@@ -79,7 +79,7 @@ runs:
       - name: Dump outputs
         if: ${{ inputs.debug_mode=='true'}}
         run: echo "output dump= ${{outputs}}
-          
+        shell: bash  
         
         
         

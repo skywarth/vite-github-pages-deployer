@@ -78,7 +78,7 @@ runs:
         id: deployment
       - name: Dump outputs
         if: ${{ inputs.debug_mode=='true'}}
-        run: echo "output dump= ${{outputs}}
+        run: echo "github_pages_url= ${{outputs.github_pages_url}}
         shell: bash  
         
         

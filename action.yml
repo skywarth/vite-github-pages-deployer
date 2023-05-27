@@ -26,7 +26,10 @@ inputs:
     description: "Your preference of package manager: 'npm' and 'yarn' are possible values."
     required: false
     default: 'npm'
-
+outputs:
+  github_pages_url:
+    description: Github pages url provided by actions/deploy-pages, exposed as is.
+    value: ${{steps.deployment.outputs.page_url}}
 runs:
   using: "composite"
   steps:
@@ -73,6 +76,11 @@ runs:
         with:
           artifact_name: ${{inputs.artifact_name}}
         id: deployment
+      - name: Dump outputs
+        if: ${{ inputs.debug_mode=='true'}}
+        run: echo "output dump= ${{outputs}}
+          
+        
         
         
 

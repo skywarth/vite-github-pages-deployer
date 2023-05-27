@@ -76,11 +76,6 @@ runs:
         with:
           artifact_name: ${{inputs.artifact_name}}
         id: deployment
-      - name: Dump outputs
-        if: ${{ inputs.debug_mode=='true'}}
-        run: echo "test"
-        # run: echo "github_pages_url= ${{outputs.github_pages_url}}"
-        shell: bash  
         
         
         

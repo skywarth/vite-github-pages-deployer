@@ -1,5 +1,7 @@
 # Vite Github Pages Deploy
 
+![GitHub all releases](https://img.shields.io/github/downloads/skywarth/vite-github-pages-deployer/total?style=for-the-badge)
+
 Deploy your [Vite](https://vitejs.dev/guide/) application to Github Pages, at a glance. 
 - No shenanigans such as committing the dist folder and pushing to a branch. 
 - Clean deploy to Github Pages by utilizing actions and artifacts.

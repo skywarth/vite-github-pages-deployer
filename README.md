@@ -138,6 +138,17 @@ jobs:
 
 - When you import a sh file in the bash shell, it is only accessible during that step only. This is due to the fact that each step is a shell on its own. 
 
+- Inside separate `sh` files, you can access input variables of the action by their respective uppercase name. For example:
+  - Input definition: 
+    ```
+    inputs: 
+        package_manager:
+        description: "Your preference of package manager: 'npm' and 'yarn' are possible values."
+        required: false
+        default: 'npm'
+    ```
+  - Accessing this input **inside the action**: `${{ inputs.package_manager }}`
+  - Accessing this input **inside a `sh` file: `$PACKAGE_MANAGER`
 
 </details>
 

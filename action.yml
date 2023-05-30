@@ -44,10 +44,9 @@ runs:
         uses: actions/configure-pages@v3
       - name: Import Bash File
         run: |
-              ls
               ls ${{github.action_path}}
               . ${{github.action_path}}/src/install.sh
-
+              Test_func
         shell: bash
       - name: Run bash files function
         run: 'Test_func'

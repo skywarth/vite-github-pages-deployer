@@ -43,7 +43,7 @@ runs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Install
-        run: ./src/install.sh
+        run: ${{ github.action_path }}/src/install.sh
         shell: bash
       - name: Build
         run: |

@@ -43,7 +43,10 @@ runs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Import Bash File
-        run: '. ./src/install.sh'
+        run: |
+              ls
+              . ./src/install.sh
+
         shell: bash
       - name: Run bash files function
         run: 'Test_func'

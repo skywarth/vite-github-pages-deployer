@@ -45,7 +45,8 @@ runs:
       - name: Import Bash File
         run: |
               ls
-              . ./src/install.sh
+              ls ${{github.action_path}}
+              . ${{github.action_path}}/src/install.sh
 
         shell: bash
       - name: Run bash files function

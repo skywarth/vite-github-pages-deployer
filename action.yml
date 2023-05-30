@@ -42,25 +42,8 @@ runs:
         shell: bash
       - name: Setup Pages
         uses: actions/configure-pages@v3
-      - name: Import Bash File
-        run: |
-              ls ${{github.action_path}}
-              . ${{github.action_path}}/src/install.sh
-              Test_func
-        shell: bash
-      - name: Run bash files function
-        run: 'Test_func'
-        shell: bash
       - name: Install
-        run: |
-              if [[ "${{ inputs.package_manager }}" == "yarn" ]]
-              then 
-                if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Installing via yarn"; fi;
-                yarn install --immutable --immutable-cache --check-cache;
-              else
-                if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Installing via npm"; fi;
-                npm ci; 
-              fi
+        run: ./src/install.sh
         shell: bash
       - name: Build
         run: |

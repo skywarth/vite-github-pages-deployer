@@ -132,3 +132,10 @@ jobs:
 - [X] Output the deploy url for environment, see issue #2
 
 
+<details><summary>Notes to self</summary>
+
+`${{github.action_path}}`: Gives you the dir for this action itself.
+
+
+</details>
+

@@ -134,7 +134,9 @@ jobs:
 
 <details><summary>Notes to self</summary>
 
-`${{github.action_path}}`: Gives you the dir for this action itself.
+- `${{github.action_path}}`: Gives you the dir for this action itself.
+
+- When you import a sh file in the bash shell, it is only accessible during that step only. This is due to the fact that each step is a shell on its own. 
 
 
 </details>

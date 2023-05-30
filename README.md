@@ -149,6 +149,11 @@ jobs:
     ```
   - Accessing this input **inside the action**: `${{ inputs.package_manager }}`
   - Accessing this input **inside a `sh` file: `$PACKAGE_MANAGER`
+    - Alternatively, you may pass env to the step to access it from a name of your liking:
+      ```
+      env:
+        SOME_OTHER_NAME: ${{ inputs.package_manager }}
+      ``` 
 
 </details>
 

@@ -1,3 +1,6 @@
+echo "$PACKAGE_MANAGER"
+echo "$PUBLIC_BASE_PATH"
+
 if [[ "$PACKAGE_MANAGER" == "yarn" ]]
 then
   if [[ "$DEBUG_MODE" == "true" ]]; then echo "Building via yarn"; fi;

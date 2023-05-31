@@ -45,11 +45,18 @@ runs:
       - name: Install
         run: ${{ github.action_path }}/src/install.sh
         shell: bash
+        env:
+          NODE_ENV: production
+          PACKAGE_MANAGER: ${{ inputs.package_manager }}
+          DEBUG_MODE: ${{ inputs.debug_mode }}
       - name: Build
         run: ${{ github.action_path }}/src/build.sh
         shell: bash
-        # env:
-        #  NODE_ENV: production
+        env:
+          NODE_ENV: production
+          PACKAGE_MANAGER: ${{ inputs.package_manager }}
+          PUBLIC_BASE_PATH: ${{ inputs.public_base_path }}
+          DEBUG_MODE: ${{ inputs.debug_mode }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

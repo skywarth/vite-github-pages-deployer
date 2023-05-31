@@ -46,15 +46,7 @@ runs:
         run: ${{ github.action_path }}/src/install.sh
         shell: bash
       - name: Build
-        run: |
-              if [[ "${{ inputs.package_manager }}" == "yarn" ]]
-              then 
-                if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Building via yarn"; fi;
-                yarn build -- --base=${{ inputs.public_base_path }}
-              else 
-                if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Building via npm"; fi;
-                npm run build -- --base=${{ inputs.public_base_path }}
-              fi
+        run: ${{ github.action_path }}/src/build.sh
         shell: bash
         env:
           NODE_ENV: production

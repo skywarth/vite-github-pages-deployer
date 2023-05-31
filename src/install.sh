@@ -1,3 +1,6 @@
+export PATH="./node_modules/.bin:$PATH"
+
+
 echo 'testing1';
 
 if [[ "$PACKAGE_MANAGER" == "yarn" ]]

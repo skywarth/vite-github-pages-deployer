@@ -1,3 +1,5 @@
+export PATH="./node_modules/.bin:$PATH"
+
 echo 'testing2';
 
 echo "$PACKAGE_MANAGER"

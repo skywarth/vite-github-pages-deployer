@@ -48,8 +48,8 @@ runs:
       - name: Build
         run: ${{ github.action_path }}/src/build.sh
         shell: bash
-        env:
-          NODE_ENV: production
+        # env:
+        #  NODE_ENV: production
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

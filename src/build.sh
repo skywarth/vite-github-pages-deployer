@@ -1,3 +1,5 @@
+echo 'testing2';
+
 echo "$PACKAGE_MANAGER"
 echo "$PUBLIC_BASE_PATH"
 

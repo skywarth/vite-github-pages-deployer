@@ -1,3 +1,5 @@
+echo 'testing1';
+
 if [[ "$PACKAGE_MANAGER" == "yarn" ]]
 then
   if [[ "$DEBUG_MODE" == "true" ]]; then echo "Installing via yarn"; fi;

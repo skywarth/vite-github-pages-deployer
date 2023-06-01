@@ -126,9 +126,40 @@ jobs:
 
 ## TODOs
 
-- [ ] Move bash scripts to a separate file for each section: build.sh, install.sh etc...
-  - [ ] Would it be possible to import it like a class ? Research
-  - [ ] Passing some parameters to it perhaps
+- [ ] ~~Move bash scripts to a separate file for each section: build.sh, install.sh etc...~~
+  - [ ] ~~Passing some parameters to it perhaps~~
 - [X] Output the deploy url for environment, see issue #2
+- [X] Option for defining package manager preference, see issue #1
 
+
+
+<details><summary>Notes to self</summary>
+
+- `${{github.action_path}}`: Gives you the dir for this action itself.
+
+- `${{ github.workspace }}`: Gives you the dir of the project (E.g: /home/runner/work/country-routing-algorithm-demo-vue/country-routing-algorithm-demo-vue)
+
+- When you import a sh file in the bash shell, it is only accessible during that step only. This is due to the fact that each step is a shell on its own.
+
+- ~~Inside separate `sh` files, you can access input variables of the action by their respective uppercase name. For example:~~
+  - Input definition:
+    ```
+    inputs: 
+        package_manager:
+        description: "Your preference of package manager: 'npm' and 'yarn' are possible values."
+        required: false
+        default: 'npm'
+    ```
+  - ~~Accessing this input **inside the action**: `${{ inputs.package_manager }}`~~
+  - ~~Accessing this input **inside a `sh` file: `$PACKAGE_MANAGER`~~
+    - Alternatively, you may pass env to the step to access it from a name of your liking:
+      ```
+      env:
+        SOME_OTHER_NAME: ${{ inputs.package_manager }}
+      ``` 
+
+- If you run `sh` files in steps, don't expect each shell to share the environments. For example in one step you install dependencies in install.sh, in another step you build by build.sh. It won't work because installed libs are only available for the install.sh step. This is why `bash-files` failed, I consulted GPT but apparently there is no way of achieving it.
+
+
+</details>
 

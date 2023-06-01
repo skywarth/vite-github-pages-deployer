@@ -1,4 +1,5 @@
-export PATH="./node_modules/.bin:$PATH"
+# export PATH="./node_modules/.bin:$PATH"
+export PATH="$GITHUB_WORKSPACE/node_modules/.bin:$PATH"
 
 
 echo 'testing1';

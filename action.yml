@@ -49,6 +49,7 @@ runs:
           NODE_ENV: production
           PACKAGE_MANAGER: ${{ inputs.package_manager }}
           DEBUG_MODE: ${{ inputs.debug_mode }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
       - name: Build
         run: ${{ github.action_path }}/src/build.sh
         shell: bash
@@ -57,6 +58,7 @@ runs:
           PACKAGE_MANAGER: ${{ inputs.package_manager }}
           PUBLIC_BASE_PATH: ${{ inputs.public_base_path }}
           DEBUG_MODE: ${{ inputs.debug_mode }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

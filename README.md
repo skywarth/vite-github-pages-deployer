@@ -12,13 +12,33 @@ Deploy your [Vite](https://vitejs.dev/guide/) application to Github Pages, at a 
   uses: skywarth/vite-github-pages-deployer@v1.1.0
 ```
 
-Don't forget to release environment regarding the deploy (see [outputs](#outputs) for details):
+## Usage Tid Bits
+
+### Don't forget to release environment regarding the deploy (see [outputs](#outputs) for details):
 ```
 # Name could be whatever you wish. It'll be visible publicly under the environments tab.
 environment:
   name: demo
   url: ${{ steps.deploy_to_pages.outputs.page_url }}
 ```
+
+### Set the proper permissions for the `GITHUB_TOKEN`
+
+If you don't declare the proper permissions, you may receive ` Error: Ensure GITHUB_TOKEN has permission "id-token: write".` error. 
+
+```
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+```
+
+### Make sure `package-json.lock` is present
+
+If `package_manager` input preference is set to `npm` (or default, unassigned), it will install dependencies using `npm ci` which utilizies `package-lock.json`. In this case make sure it is present in your project root.
+
+
 
 ## Demo
 

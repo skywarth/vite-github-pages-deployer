@@ -146,9 +146,15 @@ jobs:
 
 ## TODOs
 
-- [ ] Move bash scripts to a separate file for each section: build.sh, install.sh etc...
-  - [ ] Would it be possible to import it like a class ? Research
-  - [ ] Passing some parameters to it perhaps
 - [X] Output the deploy url for environment, see issue #2
+- [ ] Spread the gospel.
+  - [ ] DEV.to post
+  - [ ] Reddit (opensource, github, github action, ci/cd, vite, vue, react forums etc.)
+  - [ ] Maybe a medium post... God I hate that place, it stinks.
+- [ ] Section for common errors and solutions.
+- [ ] Table of Content 
+- ~~[ ] Move bash scripts to a separate file for each section: build.sh, install.sh etc...~~
+  - ~~[ ] Passing some parameters to it perhaps~~
+
 
 

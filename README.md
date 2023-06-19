@@ -149,7 +149,7 @@ jobs:
 - [X] ~~Output the deploy url for environment, see issue #2~~
 - [ ] Spread the gospel.
   - [X] ~~[DEV.to post](https://dev.to/skywarth/deploying-your-vite-apps-to-github-pages-is-a-breeze-with-vite-github-pages-deployer-30c3)~~
-  - [ ] Reddit (opensource, github, github action, ci/cd, vite, vue, react forums etc.)
+  - [X] ~~Reddit (opensource, github, github action, ci/cd, vite, vue, react forums etc.).Blah, reddit was like, you know... Reddit.~~
   - [ ] Maybe a medium post... God I hate that place, it stinks.
 - [ ] `env:
           NODE_ENV: production`

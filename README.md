@@ -151,6 +151,8 @@ jobs:
   - [X] ~~[DEV.to post](https://dev.to/skywarth/deploying-your-vite-apps-to-github-pages-is-a-breeze-with-vite-github-pages-deployer-30c3)~~
   - [ ] Reddit (opensource, github, github action, ci/cd, vite, vue, react forums etc.)
   - [ ] Maybe a medium post... God I hate that place, it stinks.
+- [ ] `env:
+          NODE_ENV: production`
 - [ ] Section for common errors and solutions.
 - [ ] Table of Content 
 - [ ] ~~Move bash scripts to a separate file for each section: build.sh, install.sh etc...~~

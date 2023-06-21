@@ -53,8 +53,8 @@ runs:
                 npm ci; 
               fi
         shell: bash
-        env:
-          NODE_ENV: production
+        #env:
+        #  NODE_ENV: production //Don't enable, it won't install Vite (ofc), and will fail the next step because vite will not be there
       - name: Build
         run: |
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]

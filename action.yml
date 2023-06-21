@@ -53,6 +53,8 @@ runs:
                 npm ci; 
               fi
         shell: bash
+        env:
+          NODE_ENV: production
       - name: Build
         run: |
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]

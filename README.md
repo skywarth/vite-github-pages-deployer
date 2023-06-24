@@ -147,7 +147,7 @@ jobs:
 ## TODOs
 
 - [X] ~~Output the deploy url for environment, see issue #2~~
-- [X] Spread the gospel.
+- [X] ~~Spread the gospel.~~
   - [X] ~~[DEV.to post](https://dev.to/skywarth/deploying-your-vite-apps-to-github-pages-is-a-breeze-with-vite-github-pages-deployer-30c3)~~
   - [X] ~~Reddit (opensource, github, github action, ci/cd, vite, vue, react forums etc.).Blah, reddit was like, you know... Reddit.~~
   - [X] ~~Maybe a [medium.com post](https://medium.com/@yigitk.ersoy/introducing-vite-github-pages-deployer-a-better-way-to-showcase-your-vite-projects-fadbb93f3db9)... God I hate that place, it stinks.~~

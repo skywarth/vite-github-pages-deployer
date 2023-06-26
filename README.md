@@ -154,10 +154,11 @@ jobs:
 - [ ] `env:
           NODE_ENV: production`
 - [ ] Section for common errors and solutions.
+- [X] ~~Option for defining package manager preference, see issue #1~~
 - [ ] Table of Content 
 - [ ] ~~Move bash scripts to a separate file for each section: build.sh, install.sh etc...~~
   - [ ] ~~Passing some parameters to it perhaps~~
-- [X] ~~Option for defining package manager preference, see issue #1~~
+
 
 
 <details><summary>Notes to self</summary>

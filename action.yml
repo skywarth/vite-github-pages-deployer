@@ -54,6 +54,7 @@ runs:
         env:
           NODE_ENV: ${{ inputs.install_phase_node_env}}
         run: |
+              # Installing dependencies
               if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Install phase began. install_phase_node_env: ${{ inputs.install_phase_node_env}}"; fi;
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 
@@ -70,6 +71,7 @@ runs:
         env:
           NODE_ENV: ${{ inputs.build_phase_node_env}}
         run: |
+              # Building project
               if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Build phase began. build_phase_node_env: ${{ inputs.build_phase_node_env}}"; fi;
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 

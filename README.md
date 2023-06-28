@@ -12,9 +12,9 @@ Deploy your [Vite](https://vitejs.dev/guide/) application to Github Pages, at a 
   uses: skywarth/vite-github-pages-deployer@v1.1.0
 ```
 
-## Usage Tid Bits
+## Usage Tidbits
 
-### Don't forget to release environment regarding the deploy (see [outputs](#outputs) for details):
+### :mega: Don't forget to release environment regarding the deploy (see [outputs](#outputs) for details):
 ```
 # Name could be whatever you wish. It'll be visible publicly under the environments tab.
 environment:
@@ -22,7 +22,7 @@ environment:
   url: ${{ steps.deploy_to_pages.outputs.page_url }}
 ```
 
-### Set the proper permissions for the `GITHUB_TOKEN`
+### :heavy_exclamation_mark: Set the proper permissions for the `GITHUB_TOKEN`
 
 If you don't declare the proper permissions, you may receive ` Error: Ensure GITHUB_TOKEN has permission "id-token: write".` error. 
 
@@ -34,9 +34,9 @@ permissions:
   id-token: write
 ```
 
-### Make sure `package-json.lock` is present
+### :warning: Make sure `package-json.lock` is present
 
-If `package_manager` input preference is set to `npm` (or default, unassigned), it will install dependencies using `npm ci` which utilizies `package-lock.json`. In this case make sure it is present in your project root.
+If `package_manager` input preference is set to `npm` (or default, unassigned), it will install dependencies using `npm ci` which utilizes `package-lock.json`. In this case make sure it is present in your project root.
 
 
 
@@ -60,6 +60,27 @@ Under normal circumstances, you don't need to provide/override this parameter, a
 `Default: './dist'`
 
 Which folder do you want your Github Page to use as root directory, after the build process. Simply it is your build output directory such as `./dist`. If your `vite` config exports to a folder other than `./dist`, then you should pass it as parameter.
+
+
+### `install_phase_node_env`(optional)
+`Type: string`
+`Default: 'dev'`
+
+`Example values:` `dev`,`production`,`test`,`staging`, `my-little-pony-env`
+
+Node environment that will be used for the installation of dependencies. **It is imperative you use an environment that has 'vite' as dependency**. Commonly and naturally, that env is `dev`. 
+
+:x: If you don't provide a NODE_ENV that has `vite` as dependency (check your package.json), you'll receive `sh: 1: vite: not found` during build phase.
+
+### `build_phase_node_env` (optional)
+`Type: string`
+`Default: 'production'`
+
+`Example values:` `dev`,`production`,`test`,`staging`, `my-little-pony-env`
+
+Node environment that will be used for the build phase. You may provide any valid NODE_ENV value for this, since node builds tend to change for different environments (e.g: you hide debugging features from production).
+
+
 
 ### `artifact_name` (optional)
 `Type: string`
@@ -151,13 +172,18 @@ jobs:
   - [X] ~~[DEV.to post](https://dev.to/skywarth/deploying-your-vite-apps-to-github-pages-is-a-breeze-with-vite-github-pages-deployer-30c3)~~
   - [X] ~~Reddit (opensource, github, github action, ci/cd, vite, vue, react forums etc.).Blah, reddit was like, you know... Reddit.~~
   - [X] ~~Maybe a [medium.com post](https://medium.com/@yigitk.ersoy/introducing-vite-github-pages-deployer-a-better-way-to-showcase-your-vite-projects-fadbb93f3db9)... God I hate that place, it stinks.~~
-- [ ] `env:
-          NODE_ENV: production`
-- [ ] Section for common errors and solutions.
+- [X] NODE_ENV options/params
+  - [X] Install phase NODE_ENV
+  - [X] Build phase NODE_ENV
+- [ ] Section for common errors and solutions. (Dismantle tidbits)
+- [ ] Make README more eye-candy
+  - [ ] Table for each input/param (type, default etc.)
+  - [ ] Icons for emphasis
+- [X] ~~Option for defining package manager preference, see issue #1~~
 - [ ] Table of Content 
 - [ ] ~~Move bash scripts to a separate file for each section: build.sh, install.sh etc...~~
   - [ ] ~~Passing some parameters to it perhaps~~
-- [X] ~~Option for defining package manager preference, see issue #1~~
+
 
 
 <details><summary>Notes to self</summary>

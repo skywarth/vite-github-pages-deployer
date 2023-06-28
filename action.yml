@@ -14,6 +14,18 @@ inputs:
     description: "Which folder do you want your Github Page to use as root directory. Usually it is your build output directory such as ./dist "
     required: false
     default: ./dist
+  install_phase_node_env:
+    description: "Node env that will be used for the installation of dependencies. It is imperative you use an environment that has 'vite' as dependency. Commonly, that is 'dev'."
+    required: false
+    default: 'dev'
+  build_phase_node_env:
+    description: "Node env that will be used for build phase."
+    required: false
+    default: 'production'
+  package_manager:
+    description: "Your preference of package manager: 'npm' and 'yarn' are possible values."
+    required: false
+    default: 'npm'
   artifact_name:
     description: "Desired name for the Deployment environment. It is also the exposed artifact name which contains the build output (dist)."
     required: false
@@ -22,10 +34,6 @@ inputs:
     description: "Controls the debug mode, boolean, true is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables."
     required: false
     default: 'false'
-  package_manager:
-    description: "Your preference of package manager: 'npm' and 'yarn' are possible values."
-    required: false
-    default: 'npm'
 outputs:
   github_pages_url:
     description: Github pages url provided by actions/deploy-pages, exposed as is.
@@ -43,7 +51,11 @@ runs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Install
+        env:
+          NODE_ENV: ${{ inputs.install_phase_node_env}}
         run: |
+              # Installing dependencies
+              if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Install phase began. install_phase_node_env: ${{ inputs.install_phase_node_env}}"; fi;
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 
                 if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Installing via yarn"; fi;
@@ -56,7 +68,11 @@ runs:
         #env:
         #  NODE_ENV: production //Don't enable, it won't install Vite (ofc), and will fail the next step because vite will not be there
       - name: Build
+        env:
+          NODE_ENV: ${{ inputs.build_phase_node_env}}
         run: |
+              # Building project
+              if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Build phase began. build_phase_node_env: ${{ inputs.build_phase_node_env}}"; fi;
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 
                 if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Building via yarn"; fi;
@@ -66,8 +82,6 @@ runs:
                 npm run build -- --base=${{ inputs.public_base_path }}
               fi
         shell: bash
-        env:
-          NODE_ENV: production
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

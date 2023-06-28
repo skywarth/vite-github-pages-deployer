@@ -172,9 +172,9 @@ jobs:
   - [X] ~~[DEV.to post](https://dev.to/skywarth/deploying-your-vite-apps-to-github-pages-is-a-breeze-with-vite-github-pages-deployer-30c3)~~
   - [X] ~~Reddit (opensource, github, github action, ci/cd, vite, vue, react forums etc.).Blah, reddit was like, you know... Reddit.~~
   - [X] ~~Maybe a [medium.com post](https://medium.com/@yigitk.ersoy/introducing-vite-github-pages-deployer-a-better-way-to-showcase-your-vite-projects-fadbb93f3db9)... God I hate that place, it stinks.~~
-- [X] NODE_ENV options/params
-  - [X] Install phase NODE_ENV
-  - [X] Build phase NODE_ENV
+- [X] ~~NODE_ENV options/params~~
+  - [X] ~~Install phase NODE_ENV~~
+  - [X] ~~Build phase NODE_ENV~~
 - [ ] Section for common errors and solutions. (Dismantle tidbits)
 - [ ] Make README more eye-candy
   - [ ] Table for each input/param (type, default etc.)

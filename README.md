@@ -1,10 +1,10 @@
-# Vite Github Pages Deploy
+# Vite GitHub Pages Deploy
 
 <!-- ![GitHub all releases](https://img.shields.io/github/downloads/skywarth/vite-github-pages-deployer/total?style=for-the-badge) -->
 
 Deploy your [Vite](https://vitejs.dev/guide/) application to Github Pages, at a glance. 
 - No shenanigans such as committing the dist folder and pushing to a branch. 
-- Clean deploy to Github Pages by utilizing actions and artifacts.
+- Clean deploy to GitHub Pages by utilizing actions and artifacts.
 - Customizable with optional build path
 
 ```
@@ -20,15 +20,16 @@ Deploy your [Vite](https://vitejs.dev/guide/) application to Github Pages, at a 
 3. [Demo](#demo)
 4. [Input Parameters](#input-parameters)
 5. [Outputs](#outputs)
-6. [TODOs](#todos)
+6. [Common errors and mistakes](#common-errors)
+7. [TODOs](#todos)
 
 
 <a name="usage"></a>
-## 1. Usage 
+## 1. Usage :checkered_flag:
 
 You can use this action simply by adding it to your action's `yaml` files appropriately. 
 
-### 1.1 Add the usage step
+### 1.1 Add the usage step :triangular_flag_on_post:
 
 Make sure to place this step after your 'checkout' step.
 
@@ -38,7 +39,7 @@ Make sure to place this step after your 'checkout' step.
   id: deploy_to_pages
 ```
 
-### 1.2 Release environment
+### 1.2 Release environment :outbox_tray:
 
 You have to place the environment section right before the `steps`. This enables the release of environment, under the environments tab. 
 
@@ -48,7 +49,7 @@ environment:
   url: ${{ steps.deploy_to_pages.outputs.github_pages_url }}
 ```
 
-### 1.3 Set the permissions for the action
+### 1.3 Set the permissions for the action  :shipit:
 
 You need to set the proper permission for the action, in order to successfully release environment and artifact. If you don't you may receive permission errors.
 
@@ -62,9 +63,11 @@ permissions:
   id-token: write
 ```
 
+### 1.4 Enjoy! :tada:
+
 
 <a name="example-workflow"></a>
-## 2. Example workflow
+## 2. Example workflow :rocket:
 
 If you don't know what to do, what actions are, or where to place the code pieces in the [usage](#usage) section, then follow these steps:
 
@@ -111,13 +114,13 @@ jobs:
 
 
 <a name="demo"></a>
-## 3. Demo
+## 3. Demo :moyai:
 
 Want to see it in action? Sure thing, head on to this vue project to see it live: https://github.com/skywarth/country-routing-algorithm-demo-vue
 
 
 <a name="input-parameters"></a>
-## 4. Input Parameters
+## 4. Input Parameters :wrench:
 
 ### `public_base_path` (optional)
 `Type: string`
@@ -175,11 +178,9 @@ Indicate the package manager of preferrence. It'll be used for installing depend
 
 Controls the debug mode, string, `'true'` is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables.
 
-<a name="outputs"></a>
-
 
 <a name="outputs"></a>
-## 5. Outputs
+## 5. Outputs :pushpin:
 
 
 ### `github_pages_url`
@@ -200,12 +201,51 @@ See [example workflow](#example-workflow) to grasp how to utilize this output
 
 
 
-<a name="example-workflow"></a>
+<a name="common-errors"></a>
+## 6. Common errors and mistakes :sos: :name_badge:
+
+### 6.1 Not releasing the environment
+
+**Error:** `Environment URL '' is not a valid http(s) URL, so it will not be shown as a link in the workflow graph.`
+
+**Cause:** Environment declaration is missing from the action, you should add it to your action `yaml` file in order to both solve the error/warning and to display the released environment in the `environments` tab in the repository.
+
+**Solution:** Add the following to your action:
+```yaml
+environment:
+  # Name could be whatever you wish. It'll be visible publicly under the environments tab.
+  name: demo
+  url: ${{ steps.deploy_to_pages.outputs.github_pages_url }}
+```
+
+:warning: Remember, `deploy_to_pages` name should be identical to the `id` of the step that you run the `Vite GitHub pages deployer`. See the [example workflow](#example-workflow) for details. 
 
 
+### 6.2 Missing permission requirements for `GITHUB_TOKEN`
+
+**Error:** `Error: Ensure GITHUB_TOKEN has permission "id-token: write".`
+
+**Cause:** Permission wasn't set as indicated in the [usage](#usage) section. If proper permissions are not granted to the action, it won't be able to create artifacts or create environments.
+
+**Solution:** Add the following code about permissions to your action `yaml` file.
+
+```
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+```
+
+See the [example workflow](#example-workflow) if you're not sure where to place it.
+
+
+### 6.3 `package-lock.json` is not present when using `npm` as package manager preferrence.
+
+If `package_manager` input preference is set to `npm` (or default, unassigned), it will install dependencies using `npm ci` which utilizes `package-lock.json`. In this case make sure `package-lock.json` is present in your project root.
 
 <a name="todos"></a>
-## 6. TODOs
+## 7. TODOs
 
 - [X] ~~Output the deploy url for environment, see issue #2~~
 - [X] ~~Spread the gospel.~~
@@ -215,14 +255,14 @@ See [example workflow](#example-workflow) to grasp how to utilize this output
 - [X] ~~NODE_ENV options/params~~
   - [X] ~~Install phase NODE_ENV~~
   - [X] ~~Build phase NODE_ENV~~
-- [ ] Section for common errors and solutions. (Dismantle tidbits)
+- [X] ~~Section for common errors and solutions. (Dismantle tidbits)~~
 - [ ] Make README more eye-candy
   - [ ] Table for each input/param (type, default etc.)
-  - [ ] Icons for emphasis
+  - [X] ~~Icons for emphasis~~
 - [X] ~~Option for defining package manager preference, see issue #1~~
 - [X] Table of Content
-- [ ] ~~Move bash scripts to a separate file for each section: build.sh, install.sh etc...~~
-  - [ ] ~~Passing some parameters to it perhaps~~
+- [ ] ~~Move bash scripts to a separate file for each section: build.sh, install.sh etc...~~ (not feasible, see the branch `bash-files`)
+  - [ ] ~~Passing some parameters to it perhaps~~ (not feasible, see the branch `bash-files`)
 
 
 
@@ -257,32 +297,6 @@ See [example workflow](#example-workflow) to grasp how to utilize this output
 </details>
 
 
-
-## Usage Tidbits
-
-### :mega: Don't forget to release environment regarding the deploy (see [outputs](#outputs) for details):
-```
-# Name could be whatever you wish. It'll be visible publicly under the environments tab.
-environment:
-  name: demo
-  url: ${{ steps.deploy_to_pages.outputs.page_url }}
-```
-
-### :heavy_exclamation_mark: Set the proper permissions for the `GITHUB_TOKEN`
-
-If you don't declare the proper permissions, you may receive ` Error: Ensure GITHUB_TOKEN has permission "id-token: write".` error. 
-
-```
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-```
-
-### :warning: Make sure `package-json.lock` is present
-
-If `package_manager` input preference is set to `npm` (or default, unassigned), it will install dependencies using `npm ci` which utilizes `package-lock.json`. In this case make sure it is present in your project root.
 
 
 

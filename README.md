@@ -1,32 +1,62 @@
-# Vite Github Pages Deploy
+# Vite GitHub Pages Deploy
 
 <!-- ![GitHub all releases](https://img.shields.io/github/downloads/skywarth/vite-github-pages-deployer/total?style=for-the-badge) -->
 
 Deploy your [Vite](https://vitejs.dev/guide/) application to Github Pages, at a glance. 
 - No shenanigans such as committing the dist folder and pushing to a branch. 
-- Clean deploy to Github Pages by utilizing actions and artifacts.
+- Clean deploy to GitHub Pages by utilizing actions and artifacts.
 - Customizable with optional build path
+- Can be used with any frontend framework as long as you use `vite` as your `build` tool. Vue, React, Svelte... You name it!
 
 ```
 - name: Vite Github Pages Deployer
   uses: skywarth/vite-github-pages-deployer@v1.1.0
 ```
 
-## Usage Tidbits
 
-### :mega: Don't forget to release environment regarding the deploy (see [outputs](#outputs) for details):
+## Table of Contents
+
+1. [Usage](#usage)
+2. [Example Workflow](#example-workflow)
+3. [Demo](#demo)
+4. [Input Parameters](#input-parameters)
+5. [Outputs](#outputs)
+6. [Common errors and mistakes](#common-errors)
+7. [TODOs](#todos)
+
+
+<a name="usage"></a>
+## 1. Usage :checkered_flag:
+
+You can use this action simply by adding it to your action's `yaml` files appropriately. 
+
+### 1.1 Add the usage step :triangular_flag_on_post:
+
+Make sure to place this step after your 'checkout' step.
+
+```yaml
+- name: Vite Github Pages Deployer
+  uses: skywarth/vite-github-pages-deployer@v1.1.0
+  id: deploy_to_pages
 ```
-# Name could be whatever you wish. It'll be visible publicly under the environments tab.
+
+### 1.2 Release environment :outbox_tray:
+
+You have to place the environment section right before the `steps`. This enables the release of environment, under the environments tab. 
+
+```yaml
 environment:
   name: demo
-  url: ${{ steps.deploy_to_pages.outputs.page_url }}
+  url: ${{ steps.deploy_to_pages.outputs.github_pages_url }}
 ```
 
-### :heavy_exclamation_mark: Set the proper permissions for the `GITHUB_TOKEN`
+### 1.3 Set the permissions for the action  :shipit:
 
-If you don't declare the proper permissions, you may receive ` Error: Ensure GITHUB_TOKEN has permission "id-token: write".` error. 
+You need to set the proper permission for the action, in order to successfully release environment and artifact. If you don't you may receive permission errors.
 
-```
+Permission declaration can be placed anywhere before `jobs:` section.
+
+```yaml
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -34,100 +64,20 @@ permissions:
   id-token: write
 ```
 
-### :warning: Make sure `package-json.lock` is present
-
-If `package_manager` input preference is set to `npm` (or default, unassigned), it will install dependencies using `npm ci` which utilizes `package-lock.json`. In this case make sure it is present in your project root.
-
-
-
-## Demo
-
-Wanna see it in action? Sure thing, head on to this vue project to see it live: https://github.com/skywarth/country-routing-algorithm-demo-vue
-
-
-## Input Parameters
-
-### `public_base_path` (optional)
-`Type: string`
-`Default: '/(your-repo-name)'`
-
-[Public base path](https://vitejs.dev/guide/build.html#public-base-path) string for Vite, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain. If you plan on deploying to alternative platform such as Vercel, you should simply provide `/`. 
-
-Under normal circumstances, you don't need to provide/override this parameter, action will set it to your repo name appropriately.
-
-### `build_path`(optional)
-`Type: string`
-`Default: './dist'`
-
-Which folder do you want your Github Page to use as root directory, after the build process. Simply it is your build output directory such as `./dist`. If your `vite` config exports to a folder other than `./dist`, then you should pass it as parameter.
-
-
-### `install_phase_node_env`(optional)
-`Type: string`
-`Default: 'dev'`
-
-`Example values:` `dev`,`production`,`test`,`staging`, `my-little-pony-env`
-
-Node environment that will be used for the installation of dependencies. **It is imperative you use an environment that has 'vite' as dependency**. Commonly and naturally, that env is `dev`. 
-
-:x: If you don't provide a NODE_ENV that has `vite` as dependency (check your package.json), you'll receive `sh: 1: vite: not found` during build phase.
-
-### `build_phase_node_env` (optional)
-`Type: string`
-`Default: 'production'`
-
-`Example values:` `dev`,`production`,`test`,`staging`, `my-little-pony-env`
-
-Node environment that will be used for the build phase. You may provide any valid NODE_ENV value for this, since node builds tend to change for different environments (e.g: you hide debugging features from production).
-
-
-
-### `artifact_name` (optional)
-`Type: string`
-`Default: 'github-pages'`
-
-Desired name for the exposed artifact. This name is visible in job and used as the artifacts name.
-
-
-### `package_manager` (optional)
-`Type: string`
-`Default: 'npm'`
-`Possible values: 'npm'|'yarn'`
-
-Indicate the package manager of preferrence. It'll be used for installing dependencies and building the `dist`. For example if you prefer/use `yarn` as your package manager for the project, then you may pass `package_manager: 'yarn'` as input which then will be used as `yarn install` and `yarn build`.
-
-### `debug_mode` (optional)
-`Type: string`
-`Default: 'false'`
-`Possible values: 'true'|'false'`
-
-Controls the debug mode, string, `'true'` is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables.
-
-<a name="outputs"></a>
-## Outputs
-
-
-### `github_pages_url`
-`Type: string`
-`Example value: 'https://skywarth.github.io/country-routing-algorithm-demo-vue/'`
-
-This output value shall be used to acquire the github pages url following the deployment. It can be accessed like so: `${{ steps.deploy_to_pages.outputs.github_pages_url }}` (deploy_to_pages is the id of the step that you run Vite Github Pages Deployer).
-
-It is expected to be used as a way to publish environment during the job, like so:
-```
-environment:
-      name: demo
-      url: ${{ steps.deploy_to_pages.outputs.github_pages_url }}
-```
-
-See [example workflow](#example-workflow) to grasp how to utilize this output
-
-
+### 1.4 Enjoy! :tada:
 
 
 <a name="example-workflow"></a>
-## Example workflow 
-```
+## 2. Example workflow :rocket:
+
+If you don't know what to do, what actions are, or where to place the code pieces in the [usage](#usage) section, then follow these steps:
+
+1. Create an action file at this path: `./.github/workflows/vite-github-pages-deploy.yml`. So in essence create a `.github` folder at your project root, and create a `yml` file in there.
+2. Copy the code below and paste it into the action you've just created, then save.
+3. Done. On your next push to `master` branch, or your next manual run from actions tab, this action will run and your project will be deployed to github pages.
+
+
+```yaml
 name: Vite Github Pages Deploy
 
 on:
@@ -143,8 +93,6 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -165,7 +113,148 @@ jobs:
 
 ```
 
-## TODOs
+
+<a name="demo"></a>
+## 3. Demo :moyai:
+
+Want to see it in action? Sure thing, head on to this vue project to see it live: https://github.com/skywarth/country-routing-algorithm-demo-vue
+
+
+<a name="input-parameters"></a>
+## 4. Input Parameters :wrench:
+
+### `public_base_path` (optional)
+| Type     | Default             | Example Values     |
+|----------|---------------------|--------------------|
+| `string` | `/{your-repo-name}` | `/my-vite-project` |
+
+
+[Public base path](https://vitejs.dev/guide/build.html#public-base-path) string for Vite, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain. If you plan on deploying to alternative platform such as Vercel, you should simply provide `/`.
+
+Under normal circumstances, you don't need to provide/override this parameter, action will set it to your repo name appropriately.
+
+### `build_path`(optional)
+| Type     | Default  | Example Values                       |
+|----------|----------|--------------------------------------|
+| `string` | `./dist` | - `./deploy`<br/> - `./dist/browser` |
+
+Which folder do you want your GitHub Page to use as root directory, after the build process. Simply it is your build output directory such as `./dist`. If your `vite` config exports to a folder other than `./dist`, then you should pass it as parameter.
+
+
+### `install_phase_node_env`(optional)
+| Type     | Default | Example Values                                                                             |
+|----------|---------|--------------------------------------------------------------------------------------------|
+| `string` | `dev`   | - `dev` <br/> - `production` <br/> - `staging` <br/> - `test` <br/> - `my-little-pony-env` |
+
+
+Node environment that will be used for the installation of dependencies. **It is imperative you use an environment that has 'vite' as dependency**. Commonly and naturally, that env is `dev`.
+
+:x: If you don't provide a NODE_ENV that has `vite` as dependency (check your package.json), you'll receive `sh: 1: vite: not found` during build phase.
+
+### `build_phase_node_env` (optional)
+| Type     | Default      | Example Values                                                                             |
+|----------|--------------|--------------------------------------------------------------------------------------------|
+| `string` | `production` | - `dev` <br/> - `production` <br/> - `staging` <br/> - `test` <br/> - `my-little-pony-env` |
+
+
+
+Node environment that will be used for the build phase. You may provide any valid NODE_ENV value for this, since node builds tend to change for different environments (e.g: you hide debugging features from production).
+
+
+
+### `artifact_name` (optional)
+| Type     | Default        | Example Values                                        |
+|----------|----------------|-------------------------------------------------------|
+| `string` | `github-pages` | - `what-a-cool-artifact` <br/> - `ah-yes-ze-artifact` |
+
+Desired name for the exposed artifact. This name is visible in job and used as the artifacts name.
+
+
+### `package_manager` (optional)
+| Type     | Default | Example Values         |
+|----------|---------|------------------------|
+| `string` | `npm`   | - `npm` <br/> - `yarn` |
+
+Indicate the package manager of preferrence. It'll be used for installing dependencies and building the `dist`. For example if you prefer/use `yarn` as your package manager for the project, then you may pass `package_manager: 'yarn'` as input which then will be used as `yarn install` and `yarn build`.
+
+### `debug_mode` (optional)
+| Type     | Default   | Example Values               |
+|----------|-----------|------------------------------|
+| `string` | `'false'` | - `'true'` <br/> - `'false'` |
+
+
+Controls the debug mode, string, `'true'` is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables.
+
+
+<a name="outputs"></a>
+## 5. Outputs :pushpin:
+
+
+### `github_pages_url`
+| Type     | Example Values                                                       |
+|----------|----------------------------------------------------------------------|
+| `string` | - `'https://skywarth.github.io/country-routing-algorithm-demo-vue/'` |
+
+
+This output value shall be used to acquire the github pages url following the deployment. It can be accessed like so: `${{ steps.deploy_to_pages.outputs.github_pages_url }}` (deploy_to_pages is the id of the step that you run Vite Github Pages Deployer).
+
+It is expected to be used as a way to publish environment during the job, like so:
+```
+environment:
+      name: demo
+      url: ${{ steps.deploy_to_pages.outputs.github_pages_url }}
+```
+
+See [example workflow](#example-workflow) to grasp how to utilize this output
+
+
+
+
+<a name="common-errors"></a>
+## 6. Common errors and mistakes :sos: :name_badge:
+
+### 6.1 Not releasing the environment
+
+**Error:** `Environment URL '' is not a valid http(s) URL, so it will not be shown as a link in the workflow graph.`
+
+**Cause:** Environment declaration is missing from the action, you should add it to your action `yaml` file in order to both solve the error/warning and to display the released environment in the `environments` tab in the repository.
+
+**Solution:** Add the following to your action:
+```yaml
+environment:
+  # Name could be whatever you wish. It'll be visible publicly under the environments tab.
+  name: demo
+  url: ${{ steps.deploy_to_pages.outputs.github_pages_url }}
+```
+
+:warning: Remember, `deploy_to_pages` name should be identical to the `id` of the step that you run the `Vite GitHub pages deployer`. See the [example workflow](#example-workflow) for details. 
+
+
+### 6.2 Missing permission requirements for `GITHUB_TOKEN`
+
+**Error:** `Error: Ensure GITHUB_TOKEN has permission "id-token: write".`
+
+**Cause:** Permission wasn't set as indicated in the [usage](#usage) section. If proper permissions are not granted to the action, it won't be able to create artifacts or create environments.
+
+**Solution:** Add the following code about permissions to your action `yaml` file.
+
+```
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+```
+
+See the [example workflow](#example-workflow) if you're not sure where to place it.
+
+
+### 6.3 `package-lock.json` is not present when using `npm` as package manager preferrence.
+
+If `package_manager` input preference is set to `npm` (or default, unassigned), it will install dependencies using `npm ci` which utilizes `package-lock.json`. In this case make sure `package-lock.json` is present in your project root.
+
+<a name="todos"></a>
+## 7. TODOs
 
 - [X] ~~Output the deploy url for environment, see issue #2~~
 - [X] ~~Spread the gospel.~~
@@ -175,15 +264,18 @@ jobs:
 - [X] ~~NODE_ENV options/params~~
   - [X] ~~Install phase NODE_ENV~~
   - [X] ~~Build phase NODE_ENV~~
-- [ ] Section for common errors and solutions. (Dismantle tidbits)
-- [ ] Make README more eye-candy
-  - [ ] Table for each input/param (type, default etc.)
-  - [ ] Icons for emphasis
+- [X] ~~Section for common errors and solutions. (Dismantle tidbits)~~
+- [X] ~~Make README more eye-candy~~
+  - [X] ~~Table for each input/param (type, default etc.)~~
+  - [X] ~~Icons for emphasis~~
 - [X] ~~Option for defining package manager preference, see issue #1~~
-- [ ] Table of Content 
-- [ ] ~~Move bash scripts to a separate file for each section: build.sh, install.sh etc...~~
-  - [ ] ~~Passing some parameters to it perhaps~~
+- [X] Table of Content
+- [ ] ~~Move bash scripts to a separate file for each section: build.sh, install.sh etc...~~ (not feasible, see the branch `bash-files`)
+  - [ ] ~~Passing some parameters to it perhaps~~ (not feasible, see the branch `bash-files`)
 
+### Something is lacking ?
+
+Is there something you require, does this action fail to meet your expectations or it lacks certain futures that prevent you from using it ? Open up an issue, and we add it to the roadmap/TODOs. Contributions are welcome.
 
 
 <details><summary>Notes to self</summary>
@@ -215,4 +307,8 @@ jobs:
 
 
 </details>
+
+
+
+
 

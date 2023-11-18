@@ -87,6 +87,7 @@ runs:
           NODE_ENV: ${{ inputs.build_phase_node_env}}
         run: |
               # Building project
+              echo "public base path. $PUBLIC_BASE_PATH";
               if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Build phase began. build_phase_node_env: ${{ inputs.build_phase_node_env}}"; fi;
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 

@@ -9,8 +9,7 @@ inputs:
   public_base_path:
     description: "Public base path string for vite, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain."
     required: false
-    #default: "/${{ github.event.repository.name }}"
-    default: "/${{ (github.workspace + '/CNAME' | fileExists) ? '/' : (github.event.repository.name) }}"
+    default: ''
   build_path:
     description: "Which folder do you want your Github Page to use as root directory. Usually it is your build output directory such as ./dist "
     required: false
@@ -42,6 +41,21 @@ outputs:
 runs:
   using: "composite"
   steps:
+      - name: Set Public Base Path
+        id: set_base_path
+        run: |
+          if [ -z "${{ inputs.public_base_path }}" ]; then
+            if [ -f $GITHUB_WORKSPACE/CNAME ]; then
+              PUBLIC_BASE_PATH="/"
+            else
+              PUBLIC_BASE_PATH="/${{ github.event.repository.name }}"
+            fi
+          else
+            PUBLIC_BASE_PATH="${{ inputs.public_base_path }}"
+          fi
+          echo "PUBLIC_BASE_PATH=${PUBLIC_BASE_PATH}" >> $GITHUB_ENV
+        shell: bash
+
       - name: Dump context
         if: ${{ inputs.debug_mode=='true'}}
         uses: crazy-max/ghaction-dump-context@v2
@@ -77,10 +91,10 @@ runs:
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 
                 if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Building via yarn"; fi;
-                yarn build -- --base=${{ inputs.public_base_path }}
+                yarn build -- --base=$PUBLIC_BASE_PATH
               else 
                 if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Building via npm"; fi;
-                npm run build -- --base=${{ inputs.public_base_path }}
+                npm run build -- --base=$PUBLIC_BASE_PATH
               fi
         shell: bash
       - name: Upload artifact

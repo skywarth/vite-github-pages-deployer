@@ -9,7 +9,8 @@ inputs:
   public_base_path:
     description: "Public base path string for vite, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain."
     required: false
-    default: "/${{ github.event.repository.name }}"
+    #default: "/${{ github.event.repository.name }}" //Vanilla default value. Altered down the steps in regard for https://github.com/skywarth/vite-github-pages-deployer/issues/5
+    default: ''
   build_path:
     description: "Which folder do you want your Github Page to use as root directory. Usually it is your build output directory such as ./dist "
     required: false
@@ -41,6 +42,20 @@ outputs:
 runs:
   using: "composite"
   steps:
+      - name: Determine Public Base Path
+        run: |
+          if [ -z "${{ inputs.public_base_path }}" ]; then
+            if [ -f $GITHUB_WORKSPACE/CNAME ]; then
+              PUBLIC_BASE_PATH="/"
+            else
+              PUBLIC_BASE_PATH="/${{ github.event.repository.name }}"
+            fi
+          else
+            PUBLIC_BASE_PATH="${{ inputs.public_base_path }}"
+          fi
+          echo "PUBLIC_BASE_PATH=${PUBLIC_BASE_PATH}" >> $GITHUB_ENV
+        shell: bash
+
       - name: Dump context
         if: ${{ inputs.debug_mode=='true'}}
         uses: crazy-max/ghaction-dump-context@v2
@@ -72,14 +87,15 @@ runs:
           NODE_ENV: ${{ inputs.build_phase_node_env}}
         run: |
               # Building project
+              echo "public base path. $PUBLIC_BASE_PATH";
               if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Build phase began. build_phase_node_env: ${{ inputs.build_phase_node_env}}"; fi;
               if [[ "${{ inputs.package_manager }}" == "yarn" ]]
               then 
                 if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Building via yarn"; fi;
-                yarn build -- --base=${{ inputs.public_base_path }}
+                yarn build -- --base=$PUBLIC_BASE_PATH #${{ inputs.public_base_path }}
               else 
                 if [[ "${{ inputs.debug_mode }}" == "true" ]]; then echo "Building via npm"; fi;
-                npm run build -- --base=${{ inputs.public_base_path }}
+                npm run build -- --base=$PUBLIC_BASE_PATH #${{ inputs.public_base_path }}
               fi
         shell: bash
       - name: Upload artifact

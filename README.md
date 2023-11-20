@@ -124,14 +124,31 @@ Want to see it in action? Sure thing, head on to this vue project to see it live
 ## 4. Input Parameters :wrench:
 
 ### `public_base_path` (optional)
-| Type     | Default             | Example Values     |
-|----------|---------------------|--------------------|
-| `string` | `/{your-repo-name}` | `/my-vite-project` |
+| Type     | Default                                      | Example Values     |
+|----------|----------------------------------------------|--------------------|
+| `string` | `/{your-repo-name}` OR `/` if you have CNAME | `/my-vite-project` |
 
 
-[Public base path](https://vitejs.dev/guide/build.html#public-base-path) string for Vite, this affects the routing, history and asset links. Make sure to provide appropriately since Github Pages stores your app in a directory under a subdomain. If you plan on deploying to alternative platform such as Vercel, you should simply provide `/`.
+[Public base path](https://vitejs.dev/guide/build.html#public-base-path) string for Vite, this affects the routing, history and asset links. Make sure to provide appropriately since GitHub Pages stores your app in a directory under a subdomain. If you plan on deploying to alternative platform such as Vercel, you should simply provide `/`.
 
 Under normal circumstances, you don't need to provide/override this parameter, action will set it to your repo name appropriately.
+
+#### Here's how `public_base_path` is resolved:
+
+- If `public_base_path` parameter/input is provided, it will be used regardless.
+- If `public_base_path` parameter/input is **NOT** provided:
+  - If the repository root has `CNAME` file for GitHub Pages Custom Domain setup, then `public_base_path` default value will resolve to `/`
+  - If the repository root does **NOT** have `CNAME`, `public_base_path` default value will resolve to `/{your-repo-name}`
+
+<a name="public-base-path-ack"></a>
+#### Acknowledgement 
+
+See the suggestion for the CNAME expansion [here](https://github.com/skywarth/vite-github-pages-deployer/issues/5)
+
+Grateful to the [Greg Sadetsky](https://github.com/gregsadetsky) for his proposition on alternating default value of this input. Also, thankful for his collaboration on explaining GitHub pages custom domain setting and testing phase of these changes.
+
+<br>
+
 
 ### `build_path`(optional)
 | Type     | Default  | Example Values                       |

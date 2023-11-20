@@ -10,7 +10,7 @@ Deploy your [Vite](https://vitejs.dev/guide/) application to Github Pages, at a 
 
 ```
 - name: Vite Github Pages Deployer
-  uses: skywarth/vite-github-pages-deployer@v1.2.0
+  uses: skywarth/vite-github-pages-deployer@v1.3.0
 ```
 
 

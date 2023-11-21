@@ -83,7 +83,7 @@ name: Vite Github Pages Deploy
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["master"]
+    branches: ["master", "main"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 

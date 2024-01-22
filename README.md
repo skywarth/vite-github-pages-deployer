@@ -1,4 +1,4 @@
-# Vite GitHub Pages Deploy
+# Vite GitHub Pages Deployer
 
 <!-- ![GitHub all releases](https://img.shields.io/github/downloads/skywarth/vite-github-pages-deployer/total?style=for-the-badge) -->
 

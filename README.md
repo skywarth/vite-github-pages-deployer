@@ -268,7 +268,12 @@ See the [example workflow](#example-workflow) if you're not sure where to place 
 
 ### 6.3 `package-lock.json` is not present when using `npm` as package manager preferrence.
 
-If `package_manager` input preference is set to `npm` (or default, unassigned), it will install dependencies using `npm ci` which utilizes `package-lock.json`. In this case make sure `package-lock.json` is present in your project root.
+**Error:** `The `npm ci` command can only install with an existing package-lock.json...`
+
+**Cause:** If `package_manager` input preference is set to `npm` (or default, unassigned), it will install dependencies using `npm ci` which utilizes `package-lock.json`. In this case make sure `package-lock.json` is present in your project root.
+
+**Solution:** Add your `package-lock.json` file to your project. If it's in the directory but doesn't appear in the repository, check your gitignore file and remove it from gitignore. Alternatively, you may set `yarn` as your preferred package manager for dependency installation via `package_manager` parameter input of the action.
+
 
 <a name="todos"></a>
 ## 7. TODOs

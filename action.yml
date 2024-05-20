@@ -104,7 +104,7 @@ runs:
           path: ${{ inputs.build_path }}
           name: ${{inputs.artifact_name}}
       - name: Deploy
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
         with:
           artifact_name: ${{inputs.artifact_name}}
         id: deployment

@@ -99,7 +99,7 @@ runs:
               fi
         shell: bash
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ inputs.build_path }}
           name: ${{inputs.artifact_name}}

@@ -35,6 +35,10 @@ inputs:
     description: "Controls the debug mode, boolean, true is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables."
     required: false
     default: 'false'
+  working-directory:
+    description: "Controls the working directory for both install and build steps"
+    required: false
+    default: "./"
 outputs:
   github_pages_url:
     description: Github pages url provided by actions/deploy-pages, exposed as is.
@@ -66,6 +70,7 @@ runs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Install
+        working-directory: ${{ inputs.working-directory }}
         env:
           NODE_ENV: ${{ inputs.install_phase_node_env}}
         run: |
@@ -83,6 +88,7 @@ runs:
         #env:
         #  NODE_ENV: production //Don't enable, it won't install Vite (ofc), and will fail the next step because vite will not be there
       - name: Build
+        working-directory: ${{ inputs.working-directory }}
         env:
           NODE_ENV: ${{ inputs.build_phase_node_env}}
         run: |

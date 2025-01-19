@@ -109,14 +109,22 @@ runs:
               fi
         shell: bash
       - name: Set artifact path
-        run: echo "ARTIFACT_PATH=${{ inputs.working-directory == './' && inputs.build_path || join('/', inputs.working-directory, inputs.build_path) }}" >> $GITHUB_ENV
+        run: |
+          if [ "${{ inputs.working-directory }}" = "./" ]; then
+            echo "ARTIFACT_PATH=${{ inputs.build_path }}" >> $GITHUB_ENV
+          else
+            echo "ARTIFACT_PATH=${{ inputs.working-directory }}/${{ inputs.build_path }}" >> $GITHUB_ENV
+          fi
+        shell: bash
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ env.ARTIFACT_PATH }}
           name: ${{ inputs.artifact_name }}
+
       - name: Deploy
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: ${{inputs.artifact_name}}
+          artifact_name: ${{ inputs.artifact_name }}
         id: deployment

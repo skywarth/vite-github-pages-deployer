@@ -67,6 +67,10 @@ runs:
         if: ${{ inputs.debug_mode=='true'}}
         run: echo "build_path is ${{ inputs.build_path }}"
         shell: bash
+      - name: Dump working-directory
+        if: ${{ inputs.debug_mode=='true' }}
+        run: echo "working-directory is ${{ inputs.working-directory }}"
+        shell: bash
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Install
@@ -106,6 +110,7 @@ runs:
         shell: bash
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        working-directory: ${{ inputs.working-directory }}
         with:
           path: ${{ inputs.build_path }}
           name: ${{inputs.artifact_name}}

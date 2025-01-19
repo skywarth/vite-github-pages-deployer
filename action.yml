@@ -108,19 +108,15 @@ runs:
                 npm run build -- --base=$PUBLIC_BASE_PATH #${{ inputs.public_base_path }}
               fi
         shell: bash
+      - name: Set artifact path
+        run: echo "ARTIFACT_PATH=${{ inputs.working-directory == './' && inputs.build_path || join('/', inputs.working-directory, inputs.build_path) }}" >> $GITHUB_ENV
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        working-directory: ${{ inputs.working-directory }}
         with:
-          path: ${{ inputs.build_path }}
-          name: ${{inputs.artifact_name}}
+          path: ${{ env.ARTIFACT_PATH }}
+          name: ${{ inputs.artifact_name }}
       - name: Deploy
         uses: actions/deploy-pages@v4
         with:
           artifact_name: ${{inputs.artifact_name}}
         id: deployment
-        
-        
-        
-
-

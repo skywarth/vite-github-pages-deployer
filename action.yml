@@ -35,7 +35,7 @@ inputs:
     description: "Controls the debug mode, boolean, true is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables."
     required: false
     default: 'false'
-  working-directory:
+  working_path:
     description: "Controls the working directory for both install and build steps"
     required: false
     default: "./"
@@ -67,14 +67,14 @@ runs:
         if: ${{ inputs.debug_mode=='true'}}
         run: echo "build_path is ${{ inputs.build_path }}"
         shell: bash
-      - name: Dump working-directory
+      - name: Dump working_path
         if: ${{ inputs.debug_mode=='true' }}
-        run: echo "working-directory is ${{ inputs.working-directory }}"
+        run: echo "working_path is ${{ inputs.working_path }}"
         shell: bash
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Install
-        working-directory: ${{ inputs.working-directory }}
+        working-directory: ${{ inputs.working_path }}
         env:
           NODE_ENV: ${{ inputs.install_phase_node_env}}
         run: |
@@ -92,7 +92,7 @@ runs:
         #env:
         #  NODE_ENV: production //Don't enable, it won't install Vite (ofc), and will fail the next step because vite will not be there
       - name: Build
-        working-directory: ${{ inputs.working-directory }}
+        working-directory: ${{ inputs.working_path }}
         env:
           NODE_ENV: ${{ inputs.build_phase_node_env}}
         run: |
@@ -110,13 +110,16 @@ runs:
         shell: bash
       - name: Set artifact path
         run: |
-          if [ "${{ inputs.working-directory }}" = "./" ]; then
+          if [[ "${{ inputs.build_path }}" == /* ]]; then
             echo "ARTIFACT_PATH=${{ inputs.build_path }}" >> $GITHUB_ENV
           else
-            echo "ARTIFACT_PATH=${{ inputs.working-directory }}/${{ inputs.build_path }}" >> $GITHUB_ENV
+            if [ "${{ inputs.working_path }}" = "./" ]; then
+              echo "ARTIFACT_PATH=${{ inputs.build_path }}" >> $GITHUB_ENV
+            else
+              echo "ARTIFACT_PATH=${{ inputs.working_path }}/${{ inputs.build_path }}" >> $GITHUB_ENV
+            fi
           fi
         shell: bash
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

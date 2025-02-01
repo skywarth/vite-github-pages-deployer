@@ -195,7 +195,7 @@ Desired name for the exposed artifact. This name is visible in job and used as t
 Indicate the package manager of preferrence. It'll be used for installing dependencies and building the `dist`. For example if you prefer/use `yarn` as your package manager for the project, then you may pass `package_manager: 'yarn'` as input which then will be used as `yarn install` and `yarn build`.
 
 
-### `working-directory` (optional)
+### `working_path` (optional)
 | Type     | Default   | Example Values               |
 |----------|-----------|------------------------------|
 | `string` | `./`      | - './app' <br/> `./example` |
@@ -214,11 +214,11 @@ app/
 README.md
 ```
 
-You can set the `working-directory` to `./app` to ensure the commands run in the correct directory:
+You can set the `working_path` to `./app` to ensure the commands run in the correct directory:
 
 ```yaml
 with:
-  working-directory: ./app
+  working_path: ./app
 ```
 
 

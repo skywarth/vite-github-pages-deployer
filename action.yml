@@ -108,22 +108,10 @@ runs:
                 npm run build -- --base=$PUBLIC_BASE_PATH #${{ inputs.public_base_path }}
               fi
         shell: bash
-      - name: Set artifact path
-        run: |
-          if [[ "${{ inputs.build_path }}" == /* ]]; then
-            echo "ARTIFACT_PATH=${{ inputs.build_path }}" >> $GITHUB_ENV
-          else
-            if [ "${{ inputs.working_path }}" = "./" ]; then
-              echo "ARTIFACT_PATH=${{ inputs.build_path }}" >> $GITHUB_ENV
-            else
-              echo "ARTIFACT_PATH=${{ inputs.working_path }}/${{ inputs.build_path }}" >> $GITHUB_ENV
-            fi
-          fi
-        shell: bash
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ env.ARTIFACT_PATH }}
+          path: ${{ inputs.build_path }}
           name: ${{ inputs.artifact_name }}
 
       - name: Deploy

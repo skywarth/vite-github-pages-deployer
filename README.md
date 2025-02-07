@@ -221,6 +221,10 @@ with:
   working_path: ./app
 ```
 
+#### Acknowledgement 
+
+Many thanks to [@sondalex](https://github.com/sondalex) for proposing the idea and implementing the necessary changes to support working directory option. See the related [PR](https://github.com/skywarth/vite-github-pages-deployer/pull/14) for details and discussion. 
+
 
 ### `debug_mode` (optional)
 | Type     | Default   | Example Values               |

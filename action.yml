@@ -35,6 +35,10 @@ inputs:
     description: "Controls the debug mode, boolean, true is for on. When turned on, it'll output certain information on certain steps. Mainly used for development, but use it as you please to inspect your env and variables."
     required: false
     default: 'false'
+  working_path:
+    description: "Controls the working directory for both install and build steps"
+    required: false
+    default: "./"
 outputs:
   github_pages_url:
     description: Github pages url provided by actions/deploy-pages, exposed as is.
@@ -63,9 +67,14 @@ runs:
         if: ${{ inputs.debug_mode=='true'}}
         run: echo "build_path is ${{ inputs.build_path }}"
         shell: bash
+      - name: Dump working_path
+        if: ${{ inputs.debug_mode=='true' }}
+        run: echo "working_path is ${{ inputs.working_path }}"
+        shell: bash
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Install
+        working-directory: ${{ inputs.working_path }}
         env:
           NODE_ENV: ${{ inputs.install_phase_node_env}}
         run: |
@@ -83,6 +92,7 @@ runs:
         #env:
         #  NODE_ENV: production //Don't enable, it won't install Vite (ofc), and will fail the next step because vite will not be there
       - name: Build
+        working-directory: ${{ inputs.working_path }}
         env:
           NODE_ENV: ${{ inputs.build_phase_node_env}}
         run: |
@@ -98,18 +108,26 @@ runs:
                 npm run build -- --base=$PUBLIC_BASE_PATH #${{ inputs.public_base_path }}
               fi
         shell: bash
+      - name: Set artifact path
+        run: |
+          if [[ "${{ inputs.build_path }}" == /* ]]; then
+            echo "ARTIFACT_PATH=${{ inputs.build_path }}" >> $GITHUB_ENV
+          else
+            if [ "${{ inputs.working_path }}" = "./" ]; then
+              echo "ARTIFACT_PATH=${{ inputs.build_path }}" >> $GITHUB_ENV
+            else
+              echo "ARTIFACT_PATH=${{ inputs.working_path }}/${{ inputs.build_path }}" >> $GITHUB_ENV
+            fi
+          fi
+        shell: bash
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ inputs.build_path }}
-          name: ${{inputs.artifact_name}}
+          path: ${{ env.ARTIFACT_PATH }}
+          name: ${{ inputs.artifact_name }}
+
       - name: Deploy
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: ${{inputs.artifact_name}}
+          artifact_name: ${{ inputs.artifact_name }}
         id: deployment
-        
-        
-        
-
-

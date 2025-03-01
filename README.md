@@ -150,12 +150,163 @@ Grateful to the [Greg Sadetsky](https://github.com/gregsadetsky) for his proposi
 <br>
 
 
+<a name="build_path"></a>
 ### `build_path`(optional)
-| Type     | Default  | Example Values                       |
-|----------|----------|--------------------------------------|
-| `string` | `./dist` | - `./deploy`<br/> - `./dist/browser` |
+| Type     | Default  | Example Values                                         |
+|----------|----------|--------------------------------------------------------|
+| `string` | `./dist` | - `./deploy`<br/> - `./dist/browser` <br/> - `../dist` |
 
-Which folder do you want your GitHub Page to use as root directory, after the build process. Simply it is your build output directory such as `./dist`. If your `vite` config exports to a folder other than `./dist`, then you should pass it as parameter.
+Which folder do you want your GitHub Page to use as root directory of deployment, after the build process. Simply it is your build output directory such as `./dist`. If your `vite` config exports to a folder other than `./dist`, then you should pass it as parameter.
+
+#### :warning: `build_path` works along with `working_path` [see section](#working_path)
+
+Here's how `build_path` is resolved and utilized while working along `working_path` parameter.
+
+- If `build_path` is an absolute path (e.g: `build_path: /some-folder/sub-folder`, then it is used as is
+  - Keep in mind this absolute path is really absolute, `/` doesn't point to repository root, it points to 
+- If `build_path` is NOT an absolute path
+  - If `working_path: ./` (default value) then use `build_path` as is
+  - If `working_path` is NOT the default value (repository root), then combine `working_path` and `build_path` and use it as build directory.
+
+See the examples below to understand how it is resolved.
+
+<details>
+
+<summary><b>Example-1: Standard repository</b></summary>
+
+
+#### Example-1: Standard repository
+
+---
+
+```
+.
+├── src/ 
+├── dist/ (doesn't exist in repository, created during build)
+├── package.json
+├── package-lock.json
+├── docs/
+└── README.md
+```
+
+Then you don't have to configure any parameters for the action. This is the default setup with the following default parameter values:
+- `build_path: ./dist`
+- `working_path: ./`
+- Resolved build output folder: `./dist`
+
+---
+
+
+</details>
+
+
+<details>
+
+<summary><b>Example-2: All code related files reside under a folder</b></summary>
+
+---
+
+#### Example-2: All code related files reside under a folder
+
+```
+.
+├── app/ 
+│   └── src/
+│   └── dist/ (doesn't exist in repository, created during build)
+│   └── package.json
+│   └── package-lock.json
+└── docs/
+└── README.md
+```
+
+Pass the following parameters:
+```yml
+- name: Deploy to Github Pages
+  uses: skywarth/vite-github-pages-deployer@master
+  id: deploy_to_pages
+  with:
+    working_path: ./app
+```
+- With this setup, the resolved build output folder is: `./app/dist`
+
+---
+
+</details>
+
+
+<details>
+
+<summary><b> Example-3: All code related files reside under a folder, with a custom build folder name</b></summary>
+
+#### Example-3: All code related files reside under a folder, with a custom build folder name
+
+---
+
+```
+.
+├── app/ 
+│   └── src/
+│   └── my_custom_build_folder/ (doesn't exist in repository, created during build)
+│   └── package.json
+│   └── package-lock.json
+└── docs/
+└── README.md
+```
+
+Pass the following parameters:
+```yml
+- name: Deploy to Github Pages
+  uses: skywarth/vite-github-pages-deployer@master
+  id: deploy_to_pages
+  with:
+    working_path: ./app
+    build_path: my_custom_build_folder
+```
+- With this setup, the resolved build output folder is: `./app/my_custom_build_folder`
+
+---
+
+</details>
+
+
+<details>
+
+<summary><b> Example-4: All code related files reside under a folder, except the build folder, with a custom build folder name</b></summary>
+
+#### Example-4: All code related files reside under a folder, except the build folder, with a custom build folder name
+
+---
+
+```
+.
+├── app/ 
+│   └── src/
+│   └── package.json
+│   └── package-lock.json
+└── deploy/
+└── docs/
+└── README.md
+```
+
+Pass the following parameters:
+```yml
+- name: Deploy to Github Pages
+  uses: skywarth/vite-github-pages-deployer@master
+  id: deploy_to_pages
+  with:
+    working_path: ./app
+    build_path: ../deploy
+```
+- With this setup, the resolved build output folder is: `./deploy`, because `./app/../deploy`
+
+---
+
+</details>
+
+
+
+
+
 
 
 ### `install_phase_node_env`(optional)
@@ -194,14 +345,16 @@ Desired name for the exposed artifact. This name is visible in job and used as t
 
 Indicate the package manager of preferrence. It'll be used for installing dependencies and building the `dist`. For example if you prefer/use `yarn` as your package manager for the project, then you may pass `package_manager: 'yarn'` as input which then will be used as `yarn install` and `yarn build`.
 
-
+<a name="working_path"></a>
 ### `working_path` (optional)
 | Type     | Default   | Example Values               |
 |----------|-----------|------------------------------|
 | `string` | `./`      | - './app' <br/> `./example` |
 
+- :warning: **Make sure `working_path` points to where your `package.json` is!** 
+- `working_path` affects `build_path` resolution, [see section](#build_path)
 
-Specifies the directory where the install, build, and deploy commands should be executed.
+Specifies the directory where the `install`, `build`, and deploy commands should be executed.
 
 **Example:**
 
@@ -326,6 +479,8 @@ See the [example workflow](#example-workflow) if you're not sure where to place 
 - [X] Table of Content
 - [ ] ~~Move bash scripts to a separate file for each section: build.sh, install.sh etc...~~ (not feasible, see the branch `bash-files`)
   - [ ] ~~Passing some parameters to it perhaps~~ (not feasible, see the branch `bash-files`)
+- [ ] Public docs deployment, `README` is becoming rather *rudimentary* 
+- [ ] Update ToC to include each input parameter
 
 ### Something is lacking ?
 

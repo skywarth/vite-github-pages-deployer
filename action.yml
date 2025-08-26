@@ -121,7 +121,7 @@ runs:
           fi
         shell: bash
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ env.ARTIFACT_PATH }}
           name: ${{ inputs.artifact_name }}

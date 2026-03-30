@@ -127,7 +127,7 @@ runs:
           name: ${{ inputs.artifact_name }}
 
       - name: Deploy
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
         with:
           artifact_name: ${{ inputs.artifact_name }}
         id: deployment
